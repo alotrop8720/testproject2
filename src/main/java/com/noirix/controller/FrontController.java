@@ -2,7 +2,9 @@ package com.noirix.controller;
 
 import com.noirix.controller.command.Commands;
 import com.noirix.domain.User;
+import com.noirix.repository.CarRepository;
 import com.noirix.repository.UserRepository;
+import com.noirix.repository.impl.CarRepositoryImpl;
 import com.noirix.repository.impl.UserRepositoryImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -49,9 +51,9 @@ public class FrontController extends HttpServlet {
     private void processGetRequests(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/hello");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/bye");
             if (dispatcher != null) {
-                resolveGetRequestCommands(req);
+                resolveGetRequestCommandsForCars(req);
                 dispatcher.forward(req, resp);
             }
         } catch (Exception e) {
@@ -62,6 +64,30 @@ public class FrontController extends HttpServlet {
             }
         }
     }
+
+    public static final CarRepository carRepository = new CarRepositoryImpl();
+
+    private void resolveGetRequestCommandsForCars(HttpServletRequest req) {
+        Commands commandName = Commands.findByCommandName(req.getParameter("command"));
+
+
+        switch (commandName) {
+            //     http://localhost:8080/test/FrontController?command=findAll
+            case FIND_ALL:
+                req.setAttribute("cars", carRepository.findAll());
+                break;
+            //     http://localhost:8080/test/FrontController?command=findById&id=10
+            case FIND_BY_ID:
+                String id = req.getParameter("id");
+                long objectId = Long.parseLong(id);
+                req.setAttribute("cars", Collections.singletonList(carRepository.findById(objectId)));
+                break;
+            default:
+                break;
+
+        }
+    }
+
 
     private void resolveGetRequestCommands(HttpServletRequest req) {
         Commands commandName = Commands.findByCommandName(req.getParameter("command"));
