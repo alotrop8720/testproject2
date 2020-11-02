@@ -17,15 +17,11 @@ public class Car {
 
     private String model;
 
-    private Timestamp guaranteeExpirationDate;
+    private Integer creationYear;
 
     private Double price;
 
-    private Long dealerId;
-
     private Long userId;
 
-    private int year;
-
-    private String country;
+    private String color;
 }
