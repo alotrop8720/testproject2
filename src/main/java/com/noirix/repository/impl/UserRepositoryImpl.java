@@ -3,8 +3,11 @@ package com.noirix.repository.impl;
 import com.noirix.domain.Gender;
 import com.noirix.domain.User;
 import com.noirix.exception.EntityNotFoundException;
+import com.noirix.repository.UserColumns;
 import com.noirix.repository.UserRepository;
 import com.noirix.util.DatabasePropertiesReader;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -22,18 +25,12 @@ import static com.noirix.util.DatabasePropertiesReader.DATABASE_LOGIN;
 import static com.noirix.util.DatabasePropertiesReader.DATABASE_PASSWORD;
 import static com.noirix.util.DatabasePropertiesReader.DATABASE_URL;
 
+@Repository
 public class UserRepositoryImpl implements UserRepository {
 
-    public static final DatabasePropertiesReader reader = DatabasePropertiesReader.getInstance();
+    private static final Logger log = Logger.getLogger(UserRepositoryImpl.class);
 
-    private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String SURNAME = "surname";
-    private static final String BIRTH_DATE = "birth_date";
-    private static final String GENDER = "gender";
-    private static final String CREATED = "created";
-    private static final String CHANGED = "changed";
-    private static final String WEIGHT = "weight";
+    public static final DatabasePropertiesReader reader = DatabasePropertiesReader.getInstance();
 
     @Override
     public List<User> search(String query) {
@@ -51,7 +48,7 @@ public class UserRepositoryImpl implements UserRepository {
         try {
             Class.forName(reader.getProperty(DATABASE_DRIVER_NAME));
         } catch (ClassNotFoundException e) {
-            System.err.println("JDBC Driver Cannot be loaded!");
+            log.error("JDBC Driver Cannot be loaded!");
             throw new RuntimeException("JDBC Driver Cannot be loaded!");
         }
 
@@ -120,14 +117,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     private User parseResultSet(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getLong(ID));
-        user.setName(rs.getString(NAME));
-        user.setSurname(rs.getString(SURNAME));
-        user.setBirthDate(rs.getDate(BIRTH_DATE));
-        user.setGender(Gender.valueOf(rs.getString(GENDER)));
-        user.setCreated(rs.getTimestamp(CREATED));
-        user.setChanged(rs.getTimestamp(CHANGED));
-        user.setWeight(rs.getFloat(WEIGHT));
+        user.setId(rs.getLong(UserColumns.ID));
+        user.setName(rs.getString(UserColumns.NAME));
+        user.setSurname(rs.getString(UserColumns.SURNAME));
+        user.setBirthDate(rs.getDate(UserColumns.BIRTH_DATE));
+        user.setGender(Gender.valueOf(rs.getString(UserColumns.GENDER)));
+        user.setCreated(rs.getTimestamp(UserColumns.CREATED));
+        user.setChanged(rs.getTimestamp(UserColumns.CHANGED));
+        user.setWeight(rs.getFloat(UserColumns.WEIGHT));
         return user;
     }
 
@@ -232,7 +229,7 @@ public class UserRepositoryImpl implements UserRepository {
             statement.setLong(1, user.getId());
 
             int deletedRows = statement.executeUpdate();
-            return (long)deletedRows;
+            return (long) deletedRows;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");

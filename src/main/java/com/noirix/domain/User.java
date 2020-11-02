@@ -1,6 +1,7 @@
 package com.noirix.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Date;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
     /*Here we will store PK of m_users table*/
     private Long id;
@@ -33,12 +35,6 @@ public class User {
     private Timestamp changed = new Timestamp(System.currentTimeMillis());
 
     private Float weight;
-
-    public User(Long id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-    }
 
     @Override
     public String toString() {
