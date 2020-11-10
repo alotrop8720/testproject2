@@ -5,7 +5,7 @@ import com.noirix.domain.Car;
 import java.util.List;
 import java.util.Optional;
 
-public interface CarRepository extends CrudRepository<Long, Car>  {
+public interface CarRepository extends CrudRepository<Long, Car> {
     @Override
     default Car save(Car object) {
         return null;

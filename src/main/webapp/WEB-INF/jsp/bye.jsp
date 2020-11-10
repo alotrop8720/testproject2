@@ -5,5 +5,6 @@
 </head>
 <body>
 Bye-bye!
+${someMessage}
 </body>
 </html>

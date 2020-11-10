@@ -1,7 +1,6 @@
 package com.noirix.service;
 
 import com.noirix.domain.Car;
-import com.noirix.domain.User;
 
 import java.util.List;
 
@@ -13,4 +12,6 @@ public interface CarService {
     Car findById(Long carId);
 
     Long delete(Car car);
+
+    Car update(Car car);
 }

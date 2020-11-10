@@ -1,12 +1,8 @@
 package com.noirix.repository.impl;
 
 import com.noirix.domain.Car;
-import com.noirix.domain.Gender;
-import com.noirix.domain.User;
 import com.noirix.repository.CarColumns;
 import com.noirix.repository.CarRepository;
-import com.noirix.repository.UserColumns;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;

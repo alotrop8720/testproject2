@@ -36,4 +36,9 @@ public class CarServiceImpl implements CarService {
     public Long delete(Car car) {
         return carRepository.delete(car);
     }
+
+    @Override
+    public Car update(Car car) {
+        return carRepository.update(car);
+    }
 }
